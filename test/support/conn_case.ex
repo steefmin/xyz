@@ -19,15 +19,15 @@ defmodule SteefMinWeb.ConnCase do
 
   using do
     quote do
+      # The default endpoint for testing
+      @endpoint SteefMinWeb.Endpoint
+
+      use SteefMinWeb, :verified_routes
+
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
       import SteefMinWeb.ConnCase
-
-      alias SteefMinWeb.Router.Helpers, as: Routes
-
-      # The default endpoint for testing
-      @endpoint SteefMinWeb.Endpoint
     end
   end
 

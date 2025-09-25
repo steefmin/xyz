@@ -7,10 +7,12 @@ defmodule Vlag.MixProject do
       version: "0.2.0",
       elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: Mix.compilers(),
+      compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      compilers: [:phoenix_live_view] ++ Mix.compilers(),
+      listeners: [Phoenix.CodeReloader]
     ]
   end
 
@@ -24,6 +26,12 @@ defmodule Vlag.MixProject do
     ]
   end
 
+  def cli do
+    [
+      preferred_envs: [precommit: :test]
+    ]
+  end
+
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
@@ -33,16 +41,15 @@ defmodule Vlag.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:tzdata, "~> 1.1"},
-      {:phoenix, "~> 1.7"},
-      {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_reload, "~> 1.6", only: :dev},
-      {:phoenix_live_view, "~> 0.20"},
-      {:phoenix_view, "~> 2.0"},
-      {:floki, ">= 0.34.0", only: :test},
-      {:phoenix_live_dashboard, "~> 0.8"},
-      {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.3", runtime: Mix.env() == :dev},
+      {:tzdata, ">= 0.0.0"},
+      {:phoenix, ">= 0.0.0"},
+      {:phoenix_html, ">= 0.0.0"},
+      {:phoenix_live_reload, ">= 0.0.0", only: :dev},
+      {:phoenix_live_view, ">= 0.0.0"},
+      {:lazy_html, ">= 0.0.0", only: :test},
+      {:phoenix_live_dashboard, ">= 0.0.0"},
+      {:esbuild, ">= 0.0.0", runtime: Mix.env() == :dev},
+      {:tailwind, ">= 0.0.0", runtime: Mix.env() == :dev},
       {:heroicons,
        github: "tailwindlabs/heroicons",
        tag: "v2.2.0",
@@ -50,11 +57,13 @@ defmodule Vlag.MixProject do
        app: false,
        compile: false,
        depth: 1},
-      {:telemetry_metrics, "~> 0.6"},
-      {:telemetry_poller, "~> 1.2"},
-      {:jason, "~> 1.4"},
-      {:bandit, "~> 1.7"},
-      {:solarex, "~> 0.1.1"},
+      {:req, ">= 0.0.0"},
+      {:telemetry_metrics, ">= 0.0.0"},
+      {:telemetry_poller, ">= 0.0.0"},
+      {:jason, ">= 0.0.0"},
+      {:bandit, ">= 0.0.0"},
+      {:dns_cluster, ">= 0.0.0"},
+      {:solarex, ">= 0.0.0"},
       {:ex_check, ">= 0.0.0", only: [:dev], runtime: false},
       {:mix_audit, ">= 0.0.0", only: [:dev, :test], runtime: false},
       {:credo, ">=0.0.0", only: [:dev, :test], runtime: false},
@@ -71,8 +80,9 @@ defmodule Vlag.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "assets.setup", "assets.build"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind my_app", "esbuild my_app"],
+      "assets.build": ["compile", "tailwind my_app", "esbuild my_app"],
       "assets.deploy": [
         "tailwind my_app --minify",
         "esbuild my_app --minify",

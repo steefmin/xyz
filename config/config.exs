@@ -11,7 +11,10 @@ import Config
 config :steef_min, SteefMinWeb.Endpoint,
   adapter: Bandit.PhoenixAdapter,
   url: [host: "localhost"],
-  render_errors: [view: SteefMinWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [
+    formats: [html: SteefMinWeb.ErrorHTML, json: SteefMinWeb.ErrorJSON],
+    layout: false
+  ],
   pubsub_server: SteefMin.PubSub,
   live_view: [signing_salt: "UTjr3EzE"]
 
@@ -36,7 +39,7 @@ config :tailwind,
   ]
 
 # Configures Elixir's Logger
-config :logger, :console,
+config :logger, :default_formatter,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
