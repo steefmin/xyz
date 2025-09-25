@@ -1,0 +1,34 @@
+default:
+  interruptible: true
+
+.elixir:
+  image: hexpm/elixir:1.18.4-erlang-28.0-debian-buster-20240612-slim
+  cache:
+    paths:
+      - deps/
+      - _build/
+      - priv/plts
+
+stages:
+- test
+- deploy
+
+check:
+  extends: .elixir
+  stage: test
+  script:
+    - mix local.hex --force
+    - mix deps.get
+    - mix local.rebar --force
+    - mix check
+
+deploy:
+  extends: .elixir
+  stage: deploy
+  only:
+    - master
+  before_script:
+    - apt-get install -y curl
+    - curl -L https://fly.io/install.sh | sh
+  script:
+    - /root/.fly/bin/flyctl deploy
