@@ -11,6 +11,10 @@ defmodule SteefMinWeb.PageControllerTest do
   alias Vlag.Flagday.VeteransDay
   use SteefMinWeb.ConnCase
 
+  setup %{conn: conn} do
+    {:ok, conn: Map.put(conn, :host, "vlag.steefmin.xyz")}
+  end
+
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
     assert html_response(conn, 200) =~ "Online vlaggenmast"
