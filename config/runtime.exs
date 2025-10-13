@@ -48,7 +48,7 @@ if config_env() == :prod do
   # To get SSL working, you will need to add the `https` key
   # to your endpoint configuration:
   #
-  #     config :my_app, MyAppWeb.Endpoint,
+  #     config :steef_min, SteefMinWeb.Endpoint,
   #       https: [
   #         ...,
   #         port: 443,
@@ -70,7 +70,7 @@ if config_env() == :prod do
   # We also recommend setting `force_ssl` in your config/prod.exs,
   # ensuring no data is ever sent via http, always redirecting to https:
   #
-  #     config :my_app, MyAppWeb.Endpoint,
+  #     config :steef_min, SteefMinWeb.Endpoint,
   #       force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.

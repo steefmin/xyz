@@ -17,48 +17,48 @@ defmodule VlagWeb.Live.Background do
   def render(assigns) do
     ~H"""
     <g id="background">
-        <g id="pole-group">
-            <rect
-                id="sky"
-                width="700"
-                height="700"
-                fill={sky_color(@daytime)}
-            />
-            <rect
-                id="ground"
-                y="450"
-                width="700"
-                height="250"
-                fill={ ground_color(@daytime) }
-            />
-            <line
-                id="groundShadow"
-                x1={ @pole_x }
-                y1="495"
-                x2="700"
-                y2="495"
-                stroke={ @shadow_color }
-                stroke-width={ @shadow_width }
-            />
-            <line
-                id="pole"
-                x1={ @pole_x }
-                y1="150"
-                x2={ @pole_x }
-                y2="500"
-                stroke={ @pole_color }
-                stroke-width={ @pole_width }
-            />
-            <line
-                id="poleShadow"
-                x1={ pole_shadow_x(@pole_x, @pole_width) }
-                y1="150"
-                x2={ pole_shadow_x(@pole_x, @pole_width) }
-                y2="500"
-                stroke={ @pole_shadow_color }
-                stroke-width={ pole_shadow_stroke(@pole_width) }
-            />
-        </g>
+      <g id="pole-group">
+        <rect
+          id="sky"
+          width="700"
+          height="700"
+          fill={sky_color(@daytime)}
+        />
+        <rect
+          id="ground"
+          y="450"
+          width="700"
+          height="250"
+          fill={ground_color(@daytime)}
+        />
+        <line
+          id="groundShadow"
+          x1={@pole_x}
+          y1="495"
+          x2="700"
+          y2="495"
+          stroke={@shadow_color}
+          stroke-width={@shadow_width}
+        />
+        <line
+          id="pole"
+          x1={@pole_x}
+          y1="150"
+          x2={@pole_x}
+          y2="500"
+          stroke={@pole_color}
+          stroke-width={@pole_width}
+        />
+        <line
+          id="poleShadow"
+          x1={pole_shadow_x(@pole_x, @pole_width)}
+          y1="150"
+          x2={pole_shadow_x(@pole_x, @pole_width)}
+          y2="500"
+          stroke={@pole_shadow_color}
+          stroke-width={pole_shadow_stroke(@pole_width)}
+        />
+      </g>
     </g>
     """
   end

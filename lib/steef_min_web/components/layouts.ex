@@ -9,6 +9,7 @@ defmodule SteefMinWeb.Layouts do
   # skeleton of your application, namely HTML headers
   # and other static content.
   embed_templates "layouts/*"
+
   @doc """
   Renders your app layout.
   This function is typically invoked from every template,
@@ -20,10 +21,13 @@ defmodule SteefMinWeb.Layouts do
       </Layouts.app>
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
+
   attr :current_scope, :map,
     default: nil,
     doc: "the current [scope](https://hexdocs.pm/phoenix/scopes.html)"
+
   slot :inner_block, required: true
+
   def app(assigns) do
     ~H"""
     <header class="navbar px-4 sm:px-6 lg:px-8">
@@ -60,6 +64,7 @@ defmodule SteefMinWeb.Layouts do
     <.flash_group flash={@flash} />
     """
   end
+
   @doc """
   Shows the flash group with standard titles and content.
   ## Examples
@@ -67,6 +72,7 @@ defmodule SteefMinWeb.Layouts do
   """
   attr :flash, :map, required: true, doc: "the map of flash messages"
   attr :id, :string, default: "flash-group", doc: "the optional id of flash container"
+
   def flash_group(assigns) do
     ~H"""
     <div id={@id} aria-live="polite">
@@ -97,6 +103,7 @@ defmodule SteefMinWeb.Layouts do
     </div>
     """
   end
+
   @doc """
   Provides dark vs light theme toggle based on themes defined in app.css.
   See <head> in root.html.heex which applies the theme before page load.

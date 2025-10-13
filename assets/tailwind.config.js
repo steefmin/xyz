@@ -6,8 +6,12 @@ const path = require("path")
 module.exports = {
   content: [
     "./js/**/*.js",
-    "../lib/my_app_web.ex",
-    "../lib/my_app_web/**/*.*ex"
+    "../lib/*_web.ex",
+    "../lib/vlag_web/live/index.html.heex",
+    "../lib/vlag_web/**/*.*ex",
+    "../lib/index_number_web/**/*.*ex",
+    "../lib/steef_min_web/**/*.*ex",
+    // "../lib/*_web/**/*.*.*ex",
   ],
   theme: {
     extend: {

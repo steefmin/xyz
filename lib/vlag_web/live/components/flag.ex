@@ -74,63 +74,68 @@ defmodule VlagWeb.Live.Flag do
 
   def render(assigns) do
     ~H"""
-    <g id={ @id } class={class_for_id("flagElement", @id)} style={height_style(@height)} >
-    <%= if @show do %>
-    <defs>
-        <clipPath id={ clip_path_id(@id) }>
-        <rect x="0" y="0" width={ clip_width(@parts, @part_height, @aspect_ratio) } height={ clip_height(@parts, @part_height, @wave_height)} />
-        </clipPath>
-    </defs>
+    <g id={@id} class={class_for_id("flagElement", @id)} style={height_style(@height)}>
+      <%= if @show do %>
+        <defs>
+          <clipPath id={clip_path_id(@id)}>
+            <rect
+              x="0"
+              y="0"
+              width={clip_width(@parts, @part_height, @aspect_ratio)}
+              height={clip_height(@parts, @part_height, @wave_height)}
+            />
+          </clipPath>
+        </defs>
 
-    <g class="flag" style={ clip_path_style(@id) }>
-        <g style={animation_style(@wave_height)}>
+        <g class="flag" style={clip_path_style(@id)}>
+          <g style={animation_style(@wave_height)}>
             <g class={class_for_id("animated", @id)} stroke="none" style={y_animation_style(@id)}>
-                <g class={class_for_id("animated", @id)} style={x_animation_style(@id)}>
-                    <%= for {color, index} <- Enum.with_index(@parts) do %>
-                    <path
-                        class="animated part"
-                        d={VlagWeb.Live.Flag.Part.create(index, @part_height, @wave_height)}
-                        fill={ color }
-                    />
-                    <% end %>
-                </g>
+              <g class={class_for_id("animated", @id)} style={x_animation_style(@id)}>
+                <%= for {color, index} <- Enum.with_index(@parts) do %>
+                  <path
+                    class="animated part"
+                    d={VlagWeb.Live.Flag.Part.create(index, @part_height, @wave_height)}
+                    fill={color}
+                  />
+                <% end %>
+              </g>
             </g>
+          </g>
         </g>
-    </g>
-    <style>
-            <%= css_class_for_id("flagElement", @id) %> {
-                /* sane defaults, overwrite in component properties */
-                --animation-duration: 5000ms;
-                --waveheight-translation: 200px;
-            }
+        <style>
+          <%= css_class_for_id("flagElement", @id) %> {
+              /* sane defaults, overwrite in component properties */
+              --animation-duration: 5000ms;
+              --waveheight-translation: 200px;
+          }
 
-            <%= css_class_for_id("animated", @id) %> {
-                animation-direction: normal;
-                animation-duration: var(--animation-duration);
-                animation-iteration-count: infinite;
-                animation-delay: 0s;
-                animation-fill-mode: forwards;
-            }
+          <%= css_class_for_id("animated", @id) %> {
+              animation-direction: normal;
+              animation-duration: var(--animation-duration);
+              animation-iteration-count: infinite;
+              animation-delay: 0s;
+              animation-fill-mode: forwards;
+          }
 
-            @keyframes move-x-<%= @id %> {
-                from {
-                    transform: translateX(-200px); /* one waveLength = 200px */
-                }
-                to {
-                    transform: translateX(0px);
-                }
-            }
+          @keyframes move-x-<%= @id %> {
+              from {
+                  transform: translateX(-200px); /* one waveLength = 200px */
+              }
+              to {
+                  transform: translateX(0px);
+              }
+          }
 
-            @keyframes move-y-<%= @id %> {
-                from, to {
-                    transform: translateY(0px);
-                }
-                50% {
-                    transform: translateY(-<%= @part_height %>px); /* one waveHeight */
-                }
-            }
-    </style>
-    <% end %>
+          @keyframes move-y-<%= @id %> {
+              from, to {
+                  transform: translateY(0px);
+              }
+              50% {
+                  transform: translateY(-<%= @part_height %>px); /* one waveHeight */
+              }
+          }
+        </style>
+      <% end %>
     </g>
     """
   end

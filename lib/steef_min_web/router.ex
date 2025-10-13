@@ -8,9 +8,10 @@ defmodule SteefMinWeb.Router do
     plug :put_root_layout, html: {SteefMinWeb.Layouts, :root}
     plug :protect_from_forgery
 
-    plug :put_secure_browser_headers #, %{
-   #    "content-security-policy" => "default-src 'self'; style-src 'self' 'unsafe-inline'"
-   # }
+    # , %{
+    plug :put_secure_browser_headers
+    #    "content-security-policy" => "default-src 'self'; style-src 'self' 'unsafe-inline'"
+    # }
   end
 
   pipeline :api do
@@ -48,7 +49,7 @@ defmodule SteefMinWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard" , metrics: SteefMinWeb.Telemetry
+      live_dashboard "/dashboard", metrics: SteefMinWeb.Telemetry
     end
   end
 end

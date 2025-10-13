@@ -7,7 +7,7 @@ defmodule Vlag.MixProject do
       version: "0.2.0",
       elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
@@ -82,10 +82,10 @@ defmodule Vlag.MixProject do
       setup: ["deps.get", "assets.setup", "assets.build"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["compile", "tailwind my_app", "esbuild my_app"],
+      "assets.build": ["compile", "tailwind steef_min", "esbuild steef_min"],
       "assets.deploy": [
-        "tailwind my_app --minify",
-        "esbuild my_app --minify",
+        "tailwind steef_min --minify",
+        "esbuild steef_min --minify",
         "phx.digest"
       ],
       precommit: ["compile --warning-as-errors", "deps.unlock --unused", "format", "test"]

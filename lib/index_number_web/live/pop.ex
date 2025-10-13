@@ -3,11 +3,18 @@ defmodule IndexNumberWeb.Live.Pop do
 
   def render(assigns) do
     ~H"""
-    <div class="pl-10 lg:flex lg:items-center lg:justify-between">
+    <div class="pl-10 pt-10 lg:flex lg:items-center lg:justify-between">
+      <div class="min-w-0 flex-1">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+          Steefs assistentie wachtrij
+        </h2>
+      </div>
+    </div>
+    <div class="px-10 lg:flex lg:items-center lg:justify-between">
       <div class="min-w-0 flex-1">
         <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
           <div class="mt-2 flex items-center text-sm text-gray-500">
-            Dit nummer is nu aan de beurt:
+            Wachtrij controls:
           </div>
         </div>
       </div>
@@ -20,13 +27,13 @@ defmodule IndexNumberWeb.Live.Pop do
               <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                 <dt class="text-base leading-7 text-gray-600">Wachtenden</dt>
                 <dd class="order-first text-8xl font-semibold tracking-tight text-gray-900 sm:text-9xl">
-                  <%= @waiting %>
+                  {@waiting}
                 </dd>
               </div>
               <div class="mx-auto flex max-w-xs flex-col gap-y-4">
                 <dt class="text-base leading-7 text-gray-600">Nummer nu in behandeling</dt>
                 <dd class="order-first text-8xl font-semibold tracking-tight text-gray-900 sm:text-9xl">
-                  <%= @called %>
+                  {@called}
                 </dd>
               </div>
             </dl>

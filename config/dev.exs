@@ -17,8 +17,8 @@ config :steef_min, SteefMinWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "JAjy6cNprCIcZzifUBOwWwhyxOV6ujDjv5w1NR6xEZhTEgXFzLceOPxg1HFe7Ya5",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:my_app, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:my_app, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:steef_min, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:steef_min, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -51,7 +51,7 @@ config :steef_min, SteefMinWeb.Endpoint,
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/.+_web/(?:controllers|live|components|router)/?.*/.*(ex|heex)$",
+      ~r"lib/.+_web/(?:controllers|live|components|router)/?.*/.*(ex|heex)$"
     ]
   ]
 
@@ -75,6 +75,3 @@ config :phoenix_live_view,
   debug_attributes: true,
   # Enable helpful, but potentially expensive runtime checks
   enable_expensive_runtime_checks: true
-
-# Disable swoosh api client as it is only required for production adapters.
-config :swoosh, :api_client, false

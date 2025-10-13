@@ -1,0 +1,66 @@
+<header>
+  <div class="text-lg font-bold">Online vlaggenmast</div>
+</header>
+<div class="container-row">
+  <div class="container-column">
+    <span class="container-row time">
+      <div class="text-lg">{@now}</div>
+    </span>
+
+    <svg
+      class="container-row figure"
+      viewBox="0 0 700 700"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <.live_component module={VlagWeb.Live.Background} id="background" daytime={@daytime} />
+
+      <.live_component module={VlagWeb.Live.Bushes} id="bushes" />
+
+      <.live_component module={VlagWeb.Live.Wreath} id="wreath" show={@wreath} />
+
+      <.live_component module={VlagWeb.Live.Flag} id="raised_flag" show={@raised} />
+
+      <.live_component
+        module={VlagWeb.Live.Flag}
+        id="half_raised_flag"
+        show={@half_raised}
+        height={100}
+      />
+
+      <.live_component module={VlagWeb.Live.Pennon} id="pennon_container" show={@pennon} />
+    </svg>
+
+    <span class="container-row data">
+      <h6>{@description}</h6>
+    </span>
+  </div>
+</div>
+<style>
+  .figure {
+      --figure-size: 70vh;
+      border-radius: var(--figure-size);
+      max-width: var(--figure-size);
+      flex-grow: 10;
+  }
+  .container-row {
+      display:flex;
+      justify-content: center;
+  }
+  .container-column {
+      height: 80vh;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+  }
+  .time {
+      flex-grow: 0;
+      max-width: 800px;
+  }
+  .data {
+      flex-grow: 0;
+      max-width: 800px;
+      margin: 2rem;
+  }
+</style>

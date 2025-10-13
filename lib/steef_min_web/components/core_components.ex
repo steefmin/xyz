@@ -22,6 +22,7 @@ defmodule SteefMinWeb.CoreComponents do
   use Phoenix.Component
   use Gettext, backend: SteefMinWeb.Gettext
   alias Phoenix.LiveView.JS
+
   @doc """
   Renders flash notices.
   ## Examples
@@ -34,8 +35,10 @@ defmodule SteefMinWeb.CoreComponents do
   attr :kind, :atom, values: [:info, :error], doc: "used for styling and flash lookup"
   attr :rest, :global, doc: "the arbitrary HTML attributes to add to the flash container"
   slot :inner_block, doc: "the optional inner block that renders the flash message"
+
   def flash(assigns) do
     assigns = assign_new(assigns, :id, fn -> "flash-#{assigns.kind}" end)
+
     ~H"""
     <div
       :if={msg = render_slot(@inner_block) || Phoenix.Flash.get(@flash, @kind)}
@@ -64,6 +67,7 @@ defmodule SteefMinWeb.CoreComponents do
     </div>
     """
   end
+
   @doc """
   Renders a button with navigation support.
   ## Examples
@@ -75,12 +79,15 @@ defmodule SteefMinWeb.CoreComponents do
   attr :class, :string
   attr :variant, :string, values: ~w(primary)
   slot :inner_block, required: true
+
   def button(%{rest: rest} = assigns) do
     variants = %{"primary" => "btn-primary", nil => "btn-primary btn-soft"}
+
     assigns =
       assign_new(assigns, :class, fn ->
         ["btn", Map.fetch!(variants, assigns[:variant])]
       end)
+
     if rest[:href] || rest[:navigate] || rest[:patch] do
       ~H"""
       <.link class={@class} {@rest}>
@@ -95,6 +102,7 @@ defmodule SteefMinWeb.CoreComponents do
       """
     end
   end
+
   @doc """
   Renders an input with label and error messages.
   A `Phoenix.HTML.FormField` may be passed as argument,
@@ -116,12 +124,15 @@ defmodule SteefMinWeb.CoreComponents do
   attr :name, :any
   attr :label, :string, default: nil
   attr :value, :any
+
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file month number password
                search select tel text textarea time url week)
+
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
+
   attr :errors, :list, default: []
   attr :checked, :boolean, doc: "the checked flag for checkbox inputs"
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
@@ -129,11 +140,14 @@ defmodule SteefMinWeb.CoreComponents do
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
   attr :class, :string, default: nil, doc: "the input class to use over defaults"
   attr :error_class, :string, default: nil, doc: "the input error class to use over defaults"
+
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
                 multiple pattern placeholder readonly required rows size step)
+
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
     errors = if Phoenix.Component.used_input?(field), do: field.errors, else: []
+
     assigns
     |> assign(field: nil, id: assigns.id || field.id)
     |> assign(:errors, Enum.map(errors, &translate_error(&1)))
@@ -141,11 +155,13 @@ defmodule SteefMinWeb.CoreComponents do
     |> assign_new(:value, fn -> field.value end)
     |> input()
   end
+
   def input(%{type: "checkbox"} = assigns) do
     assigns =
       assign_new(assigns, :checked, fn ->
         Phoenix.HTML.Form.normalize_value("checkbox", assigns[:value])
       end)
+
     ~H"""
     <div class="fieldset mb-2">
       <label>
@@ -166,6 +182,7 @@ defmodule SteefMinWeb.CoreComponents do
     </div>
     """
   end
+
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div class="fieldset mb-2">
@@ -186,6 +203,7 @@ defmodule SteefMinWeb.CoreComponents do
     </div>
     """
   end
+
   def input(%{type: "textarea"} = assigns) do
     ~H"""
     <div class="fieldset mb-2">
@@ -205,6 +223,7 @@ defmodule SteefMinWeb.CoreComponents do
     </div>
     """
   end
+
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
@@ -227,6 +246,7 @@ defmodule SteefMinWeb.CoreComponents do
     </div>
     """
   end
+
   # Helper used by inputs to generate form errors
   defp error(assigns) do
     ~H"""
@@ -236,12 +256,14 @@ defmodule SteefMinWeb.CoreComponents do
     </p>
     """
   end
+
   @doc """
   Renders a header with title.
   """
   slot :inner_block, required: true
   slot :subtitle
   slot :actions
+
   def header(assigns) do
     ~H"""
     <header class={[@actions != [] && "flex items-center justify-between gap-6", "pb-4"]}>
@@ -257,6 +279,7 @@ defmodule SteefMinWeb.CoreComponents do
     </header>
     """
   end
+
   @doc """
   Renders a table with generic styling.
   ## Examples
@@ -269,18 +292,23 @@ defmodule SteefMinWeb.CoreComponents do
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
+
   attr :row_item, :any,
     default: &Function.identity/1,
     doc: "the function for mapping each row before calling the :col and :action slots"
+
   slot :col, required: true do
     attr :label, :string
   end
+
   slot :action, doc: "the slot for showing user actions in the last table column"
+
   def table(assigns) do
     assigns =
       with %{rows: %Phoenix.LiveView.LiveStream{}} <- assigns do
         assign(assigns, row_id: assigns.row_id || fn {id, _item} -> id end)
       end
+
     ~H"""
     <table class="table table-zebra">
       <thead>
@@ -312,6 +340,7 @@ defmodule SteefMinWeb.CoreComponents do
     </table>
     """
   end
+
   @doc """
   Renders a data list.
   ## Examples
@@ -323,6 +352,7 @@ defmodule SteefMinWeb.CoreComponents do
   slot :item, required: true do
     attr :title, :string, required: true
   end
+
   def list(assigns) do
     ~H"""
     <ul class="list">
@@ -335,6 +365,7 @@ defmodule SteefMinWeb.CoreComponents do
     </ul>
     """
   end
+
   @doc """
   Renders a [Heroicon](https://heroicons.com).
   Heroicons come in three styles – outline, solid, and mini.
@@ -350,11 +381,13 @@ defmodule SteefMinWeb.CoreComponents do
   """
   attr :name, :string, required: true
   attr :class, :string, default: "size-4"
+
   def icon(%{name: "hero-" <> _} = assigns) do
     ~H"""
     <span class={[@name, @class]} />
     """
   end
+
   ## JS Commands
   def show(js \\ %JS{}, selector) do
     JS.show(js,
@@ -366,6 +399,7 @@ defmodule SteefMinWeb.CoreComponents do
          "opacity-100 translate-y-0 sm:scale-100"}
     )
   end
+
   def hide(js \\ %JS{}, selector) do
     JS.hide(js,
       to: selector,
@@ -375,6 +409,7 @@ defmodule SteefMinWeb.CoreComponents do
          "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"}
     )
   end
+
   @doc """
   Translates an error message using gettext.
   """
@@ -390,11 +425,12 @@ defmodule SteefMinWeb.CoreComponents do
     # with our gettext backend as first argument. Translations are
     # available in the errors.po file (as we use the "errors" domain).
     if count = opts[:count] do
-      Gettext.dngettext(MyAppWeb.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(SteefMinWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(MyAppWeb.Gettext, "errors", msg, opts)
+      Gettext.dgettext(SteefMinWeb.Gettext, "errors", msg, opts)
     end
   end
+
   @doc """
   Translates the errors for a field from a keyword list of errors.
   """
