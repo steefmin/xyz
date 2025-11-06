@@ -7,10 +7,6 @@
 # General application configuration
 import Config
 
-gen_salt = fn length ->
-  :crypto.strong_rand_bytes(length) |> Base.encode64() |> binary_part(0, length)
-end
-
 # Configures the endpoint
 config :steef_min, SteefMinWeb.Endpoint,
   adapter: Bandit.PhoenixAdapter,
@@ -20,7 +16,7 @@ config :steef_min, SteefMinWeb.Endpoint,
     layout: false
   ],
   pubsub_server: SteefMin.PubSub,
-  live_view: [signing_salt: System.get_env("PHX_LIVE_VIEW_SALT") || gen_salt.(8)]
+  live_view: [signing_salt: "UTjr3EzE"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
