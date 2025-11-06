@@ -18,7 +18,7 @@ defmodule SteefMinWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", VlagWeb do
+  scope "/", VlagWeb, host: ["vlag.", "flag."] do
     pipe_through :browser
 
     live("/", Live.Index)
@@ -36,6 +36,7 @@ defmodule SteefMinWeb.Router do
     pipe_through :browser
 
     live "/", Live.Home
+    get "/up", Controller.HealthController, :index
   end
 
   # Other scopes may use custom stacks.
