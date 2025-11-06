@@ -18,6 +18,12 @@ defmodule SteefMinWeb.Router do
     plug :accepts, ["json"]
   end
 
+  scope "/", SteefMinWeb do
+    pipe_through :browser
+
+    live "/", Live.Home
+  end
+
   scope "/", VlagWeb, host: ["flag.", "vlag."] do
     pipe_through :browser
 
