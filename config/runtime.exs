@@ -31,7 +31,7 @@ if config_env() == :prod do
   config :steef_min, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
   config :steef_min, SteefMinWeb.Endpoint,
-    url: [host: host, port: 443],
+    url: [host: host, port: port],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
